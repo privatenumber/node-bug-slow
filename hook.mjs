@@ -2,7 +2,7 @@ import { isMainThread } from 'worker_threads';
 import module from 'module';
 
 if (isMainThread) {
-	module.register(import.meta.url, import.meta.url);
+	module.register(import.meta.url);
 }
 
 export const load = async (
@@ -14,9 +14,8 @@ export const load = async (
 		return {
 			shortCircuit: true,
 			format: 'module',
-			source: 'import assert from"assert";const startTime=Date.now();console.log("start time:",Date.now()-startTime);try{assert.ok(false)}finally{console.log("end time:",Date.now()-startTime)}',
+			source: 'import assert from"assert";const startTime=performance.now();console.log("start time:",performance.now()-startTime);try{assert.ok(false)}finally{console.log("end time:",performance.now()-startTime)}',
 		};
 	}
 	return await nextLoad(url, context);
 };
-
